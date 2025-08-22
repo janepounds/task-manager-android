@@ -17,7 +17,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.taskmanager.ui.screen.AddTaskScreen
 import com.example.taskmanager.ui.screen.TaskListScreen
 import com.example.taskmanager.ui.theme.TaskManagerAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
