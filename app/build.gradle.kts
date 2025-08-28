@@ -65,6 +65,16 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
+    //preferences
+    implementation (libs.androidx.datastore.preferences)
+
+      //logging
+    implementation(libs.okhttp)
+     implementation (libs.okhttp.logging.interceptor)
+
+
+
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

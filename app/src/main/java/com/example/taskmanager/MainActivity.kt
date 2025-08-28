@@ -11,21 +11,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskmanager.ui.screen.AddTaskScreen
+import com.example.taskmanager.ui.screen.LoginScreen
+import com.example.taskmanager.ui.screen.SplashScreen
 import com.example.taskmanager.ui.screen.TaskListScreen
 import com.example.taskmanager.ui.theme.TaskManagerAppTheme
+import com.example.taskmanager.utils.UserPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var userPreferences: UserPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "taskList") {
+
+            NavHost(navController = navController, startDestination = "splash") {
+                composable("splash") {
+                    SplashScreen(
+                        userPreferences,
+                        navToDashboard = { navController.navigate("taskList") { popUpTo("splash") { inclusive = true } } },
+                        navToLogin = { navController.navigate("login") { popUpTo("splash") { inclusive = true } } }
+                    )
+                }
+                composable("login") {
+                    LoginScreen(viewModel = hiltViewModel(),
+                        onLoginSuccess = { navController.navigate("taskList") { popUpTo("login") { inclusive = true } } })
+                }
                 composable("taskList") { TaskListScreen { navController.navigate("addTask") } }
                 composable("addTask") { AddTaskScreen { navController.popBackStack() } }
             }

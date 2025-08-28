@@ -30,4 +30,18 @@ class TaskViewModel @Inject constructor(private val repository: TaskRepository) 
             onDone()
         }
     }
+
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            val updatedTask = repository.updateTask( task)
+            _tasks.value = _tasks.value.map { if(it.id == task.id) updatedTask else it }
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
+            _tasks.value = _tasks.value.filter { it.id != task.id }
+        }
+    }
 }
