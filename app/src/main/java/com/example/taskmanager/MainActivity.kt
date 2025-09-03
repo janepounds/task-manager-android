@@ -38,16 +38,25 @@ class MainActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = "splash") {
                 composable("splash") {
                     SplashScreen(
-                        userPreferences,
-                        navToDashboard = { navController.navigate("taskList") { popUpTo("splash") { inclusive = true } } },
-                        navToLogin = { navController.navigate("login") { popUpTo("splash") { inclusive = true } } }
+                    viewModel = hiltViewModel(),
+                        navController = navController,
+
                     )
                 }
                 composable("login") {
                     LoginScreen(viewModel = hiltViewModel(),
                         onLoginSuccess = { navController.navigate("taskList") { popUpTo("login") { inclusive = true } } })
                 }
-                composable("taskList") { TaskListScreen { navController.navigate("addTask") } }
+                composable("taskList") {
+                    TaskListScreen(
+                        navController = navController,
+                        navToAddTask = { navController.navigate("addTask") },
+                        navToUpdateTask = { task -> navController.navigate("updateTask/${task.id}") },
+                        onDeleteTask = { task -> /* delete via ViewModel */ }
+                    )
+                }
+
+
                 composable("addTask") { AddTaskScreen { navController.popBackStack() } }
             }
         }
