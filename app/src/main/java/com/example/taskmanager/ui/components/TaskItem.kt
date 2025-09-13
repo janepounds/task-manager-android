@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Delete
@@ -33,67 +34,77 @@ fun TaskItem(
 ) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .fillMaxWidth()
             .clickable { onClick() },
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-        elevation = androidx.compose.material3.CardDefaults.cardElevation(4.dp)
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 3.dp),
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(Modifier.weight(1f)) {
+            // Left: Title + Description
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
                     text = task.title,
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = task.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
             }
 
-
-
-
+            // Right: Status + Delete
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End, // push icons to the right
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                // Status Icon (just visual, not clickable)
                 if (task.completed) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
                         contentDescription = "Completed",
                         tint = Color(0xFF4CAF50),
-                        modifier = Modifier.padding(end = 8.dp)
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Done",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFF4CAF50)
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.Refresh,
                         contentDescription = "Pending",
                         tint = Color(0xFFFF9800),
-                        modifier = Modifier.padding(end = 8.dp)
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Text(
+                        "Pending",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFFFF9800)
                     )
                 }
 
-                // Delete Button
                 IconButton(onClick = onDelete) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "Delete Task",
-                        tint = Color.Red
+                        tint = MaterialTheme.colorScheme.error
                     )
                 }
             }
-
         }
     }
 }

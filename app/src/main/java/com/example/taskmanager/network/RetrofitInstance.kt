@@ -18,7 +18,7 @@ object RetrofitInstance {
 
     val api: TaskApi by lazy {
         Retrofit.Builder()
-            .baseUrl("https://221be1e6bf5a.ngrok-free.app/") // emulator localhost
+            .baseUrl("https://4e2982cb4778.ngrok-free.app/") // emulator localhost
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
