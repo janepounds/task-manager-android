@@ -51,7 +51,7 @@ class TaskViewModel @Inject constructor(
     }
 
     fun getTaskById(id: Int): Task? {
-        return tasks.value.find { it.id.toInt() == id }
+        return tasks.value.find { (it.id?: "") == id }
     }
 
     fun updateTask(task: Task) {

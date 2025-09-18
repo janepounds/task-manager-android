@@ -24,6 +24,7 @@ interface TaskApi {
         @Header("Authorization") token: String
     ): List<Task>
 
+
     @POST("api/tasks")
     suspend fun createTask(
         @Header("Authorization") token: String,
@@ -31,14 +32,14 @@ interface TaskApi {
 
     @PUT("tasks/{id}")
     suspend fun updateTask(
-        @Path("id") id: Long,
+        @Path("id") id: Int?,
         @Body task: Task,
         @Header("Authorization") token: String
     ): Task
 
     @DELETE("tasks/{id}")
     suspend fun deleteTask(
-        @Path("id") id: Long,
+        @Path("id") id: Int?,
         @Header("Authorization") token: String
     )
 }
