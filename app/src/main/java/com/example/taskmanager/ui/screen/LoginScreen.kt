@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -47,6 +48,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -59,7 +62,8 @@ import com.example.taskmanager.viewmodel.AuthViewModel
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel,
-    onLoginSuccess: () -> Unit
+    onLoginSuccess: () -> Unit,
+    navToSignUp: () -> Unit,
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -205,10 +209,13 @@ fun LoginScreen(
                     ) {
                         Text("Don’t have an account?")
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "Sign Up",
-                            color = Color(0xFF3F51B5),
-                            fontWeight = FontWeight.Bold
+                        ClickableText(
+                            text = AnnotatedString("Sign Up"),
+                            onClick = { navToSignUp() },
+                            style = TextStyle(
+                                color = Color(0xFF3F51B5),
+                                fontWeight = FontWeight.Bold
+                            )
                         )
                     }
                 }

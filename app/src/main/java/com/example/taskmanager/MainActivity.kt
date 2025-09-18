@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.taskmanager.ui.screen.AddTaskScreen
 import com.example.taskmanager.ui.screen.LoginScreen
+import com.example.taskmanager.ui.screen.SignUpScreen
 import com.example.taskmanager.ui.screen.SplashScreen
 import com.example.taskmanager.ui.screen.TaskListScreen
 import com.example.taskmanager.ui.theme.TaskManagerAppTheme
@@ -45,7 +46,27 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("login") {
                     LoginScreen(viewModel = hiltViewModel(),
-                        onLoginSuccess = { navController.navigate("taskList") { popUpTo("login") { inclusive = true } } })
+                        onLoginSuccess = { navController.navigate("taskList") { popUpTo("login") { inclusive = true } } },
+                        navToSignUp = { navController.navigate("signup") },
+                    )
+                }
+
+
+                // Sign Up
+                composable("signup") {
+                    SignUpScreen(
+                        viewModel = hiltViewModel(),
+                        onSignUpSuccess = {
+                            navController.navigate("taskList") {
+                                popUpTo("signup") { inclusive = true }
+                            }
+                        },
+                        navToLogin = {
+                            navController.navigate("login") {
+                                popUpTo("signup") { inclusive = true }
+                            }
+                        }
+                    )
                 }
                 composable("taskList") {
                     TaskListScreen(
